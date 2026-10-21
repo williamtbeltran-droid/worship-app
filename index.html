@@ -2,74 +2,86 @@
 <html lang="en" class="h-full bg-slate-950 text-slate-100">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grace Church - Worship Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grace Church - Worship Portal & Operations System</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     .chord { font-weight: 700; color: #3b82f6; display: inline-block; padding: 0 2px; }
     .lyric-line { line-height: 2.2; }
     .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 4px; }
   </style>
 </head>
 <body class="h-full flex flex-col font-sans bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white">
 
-  <!-- Header / Navigation Bar -->
+  <!-- TOP HEADER / NAV -->
   <header class="glass-card sticky top-0 z-50 border-b border-slate-800/80 px-4 py-3">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
-          ✝
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-start">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
+            ✝
+          </div>
+          <div>
+            <h1 class="font-bold text-lg text-white leading-none">Grace Church Worship</h1>
+            <p class="text-xs text-slate-400 mt-1">Single Source of Truth Portal</p>
+          </div>
         </div>
-        <div>
-          <h1 class="font-bold text-lg text-white leading-none">Grace Church Worship</h1>
-          <p class="text-xs text-slate-400 mt-1">Single Source of Truth Portal</p>
-        </div>
+        <span class="sm:hidden px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">Live</span>
       </div>
 
-      <!-- Navigation Tabs -->
-      <nav class="flex space-x-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
-        <button onclick="switchTab('setlist')" id="nav-setlist" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-md">
+      <!-- MAIN TABS -->
+      <nav class="flex space-x-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 w-full sm:w-auto overflow-x-auto">
+        <button onclick="switchTab('setlist')" id="nav-setlist" class="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-md">
           <i data-lucide="music" class="w-4 h-4"></i>
-          <span>Setlist</span>
+          <span>Sunday Lineup</span>
         </button>
-        <button onclick="switchTab('library')" id="nav-library" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
+        <button onclick="switchTab('library')" id="nav-library" class="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
           <i data-lucide="library" class="w-4 h-4"></i>
-          <span>Library</span>
+          <span>Song Library</span>
         </button>
-        <button onclick="switchTab('stems')" id="nav-stems" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
+        <button onclick="switchTab('stems')" id="nav-stems" class="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
           <i data-lucide="sliders" class="w-4 h-4"></i>
           <span>Rehearsal Stems</span>
+        </button>
+        <button onclick="switchTab('spec')" id="nav-spec" class="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
+          <i data-lucide="database" class="w-4 h-4"></i>
+          <span>Technical Spec</span>
         </button>
       </nav>
     </div>
   </header>
 
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6 overflow-y-auto custom-scrollbar">
 
     <!-- ================= TAB 1: SUNDAY SETLIST ================= -->
     <section id="tab-setlist" class="space-y-6">
       
-      <!-- Service Header Card -->
-      <div class="glass-card p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
+      <!-- HERO CARD -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div class="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">
             <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-            <span>Upcoming Lineup</span>
+            <span>Upcoming Service: Sunday Morning</span>
           </div>
-          <h2 class="text-2xl font-bold text-white">Sunday Worship Service</h2>
-          <p class="text-xs text-slate-400 mt-1">Worship Leader: Sarah M. | Electric Guitar: Alex R.</p>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Main Worship Service Lineup</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Song Leader: Sarah M. | Band Leader: David K. | Key Overrides Active</p>
         </div>
 
-        <!-- Key Transposer Selector -->
-        <div class="flex items-center space-x-3 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-          <i data-lucide="key" class="w-4 h-4 text-blue-400"></i>
-          <span class="text-xs font-semibold text-slate-400 uppercase">Target Key:</span>
-          <select id="keySelector" onchange="changeKey(this.value)" class="bg-slate-800 border border-slate-700 text-white font-bold text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500">
+        <!-- DYNAMIC TRANSPOSER SELECTOR -->
+        <div class="w-full md:w-auto flex items-center justify-between md:justify-start space-x-3 bg-slate-900/90 p-3 rounded-xl border border-slate-800 shadow-inner">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="key" class="w-4 h-4 text-blue-400"></i>
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Target Key:</span>
+          </div>
+          <select id="keySelector" onchange="changeKey(this.value)" class="bg-slate-800 border border-slate-700 text-white font-extrabold text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="C">C Major</option>
             <option value="D">D Major</option>
-            <option value="E">E Major</option>
+            <option value="E">E Major (Rehearsal Key)</option>
             <option value="F">F Major</option>
             <option value="G">G Major</option>
             <option value="A">A Major</option>
@@ -78,11 +90,14 @@
         </div>
       </div>
 
-      <!-- Structural Arrangement Map -->
+      <!-- VISUAL ARRANGEMENT ROADMAP -->
       <div class="glass-card p-5 rounded-2xl space-y-3">
-        <div class="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase">
-          <i data-lucide="git-commit" class="w-4 h-4 text-emerald-400"></i>
-          <span>Song Arrangement Flow</span>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <i data-lucide="git-commit" class="w-4 h-4 text-emerald-400"></i>
+            <span>Arrangement Map & Flow Cues</span>
+          </div>
+          <span class="text-xs text-blue-400 font-medium">BPM: 68 | Time: 4/4</span>
         </div>
         <div class="flex flex-wrap gap-2 text-xs font-bold">
           <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">Intro (4 bars)</span>
@@ -96,21 +111,23 @@
         </div>
       </div>
 
-      <!-- Transposed Chord Chart Canvas -->
-      <div class="glass-card p-6 sm:p-8 rounded-2xl space-y-6">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+      <!-- CHORD CHART DISPLAY CANVAS -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl space-y-6 shadow-2xl">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-5">
           <div>
-            <h3 id="songTitle" class="text-2xl font-bold text-white">What a Beautiful Name</h3>
-            <p id="songMeta" class="text-xs text-slate-400 mt-1">Artist: Hillsong Worship | Original Key: D | Tempo: 68 BPM</p>
+            <h3 id="songTitle" class="text-2xl sm:text-3xl font-extrabold text-white">What a Beautiful Name</h3>
+            <p id="songMeta" class="text-xs sm:text-sm text-slate-400 mt-1">Artist: Hillsong Worship | Original Key: D | Tempo: 68 BPM</p>
           </div>
-          <button onclick="window.print()" class="flex items-center space-x-2 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-2 rounded-lg text-slate-200 transition-all">
-            <i data-lucide="printer" class="w-4 h-4"></i>
-            <span>Print Chart</span>
-          </button>
+          <div class="flex items-center space-x-2">
+            <button onclick="window.print()" class="flex items-center space-x-2 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3.5 py-2 rounded-xl text-slate-200 transition-all">
+              <i data-lucide="printer" class="w-4 h-4"></i>
+              <span>Print Chart</span>
+            </button>
+          </div>
         </div>
 
         <div id="chordChartContainer" class="font-mono text-base text-slate-200 leading-relaxed overflow-x-auto whitespace-pre-wrap">
-          <!-- Transposed Chord Chart Rendered Here -->
+          <!-- Rendered Transposed Chart -->
         </div>
       </div>
     </section>
@@ -118,10 +135,10 @@
 
     <!-- ================= TAB 2: SONG LIBRARY ================= -->
     <section id="tab-library" class="hidden space-y-6">
-      <div class="flex justify-between items-center">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 class="text-2xl font-bold text-white">Song Library</h2>
-          <p class="text-xs text-slate-400">Master repository of chords and lyric charts</p>
+          <h2 class="text-2xl font-bold text-white">Song Chart Library</h2>
+          <p class="text-xs text-slate-400 mt-1">Single source of truth for chords, lyrics, and metadata</p>
         </div>
         <button onclick="toggleModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all shadow-lg shadow-blue-500/20">
           <i data-lucide="plus" class="w-4 h-4"></i>
@@ -130,7 +147,7 @@
       </div>
 
       <div id="libraryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Dynamic Cards Injected Here -->
+        <!-- Dynamic Cards -->
       </div>
     </section>
 
@@ -140,10 +157,10 @@
       <div class="glass-card p-6 rounded-2xl space-y-6">
         <div>
           <h2 class="text-2xl font-bold text-white">Rehearsal Stem Player</h2>
-          <p class="text-xs text-slate-400">Practice missing instrument parts or isolate your track at home</p>
+          <p class="text-xs text-slate-400 mt-1">Practice missing instrument parts or isolate your track at home</p>
         </div>
 
-        <!-- Master Transport Controller -->
+        <!-- MASTER TRANSPORT -->
         <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 flex items-center justify-between">
           <div class="flex items-center space-x-4">
             <button id="playBtn" onclick="toggleAudioPlayback()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-4 rounded-full w-14 h-14 flex items-center justify-center shadow-lg shadow-emerald-600/30 transition-all">
@@ -159,7 +176,7 @@
           </div>
         </div>
 
-        <!-- Multi-Channel Mixer Faders -->
+        <!-- MULTI-TRACK MIXER -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
             <div class="flex justify-between text-xs font-bold text-slate-300">
@@ -192,6 +209,52 @@
             </div>
             <input type="range" min="0" max="100" value="100" oninput="updateVolume('drums', this.value)" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
           </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= TAB 4: TECHNICAL SPEC & SCHEMA ================= -->
+    <section id="tab-spec" class="hidden space-y-6">
+      <div class="glass-card p-6 rounded-2xl space-y-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white">System Technical Specification & Database Architecture</h2>
+          <p class="text-xs text-slate-400 mt-1">PostgreSQL Database Schema & Backend REST API Endpoints</p>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-bold text-blue-400 uppercase tracking-wider">PostgreSQL Database Schema (Supabase / Postgres Ready)</h3>
+          <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-emerald-400 overflow-x-auto">
+-- SONGS MASTER TABLE
+CREATE TABLE songs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    artist VARCHAR(255),
+    original_key VARCHAR(10) NOT NULL,
+    tempo_bpm INT DEFAULT 70,
+    time_signature VARCHAR(10) DEFAULT '4/4',
+    base_chord_chart TEXT NOT NULL, -- ChordPro Format
+    created_at TIMESTAMP WITH TIMEZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- SETLISTS TABLE
+CREATE TABLE setlists (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    service_date DATE NOT NULL,
+    service_title VARCHAR(255) NOT NULL,
+    song_leader VARCHAR(255),
+    created_at TIMESTAMP WITH TIMEZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- SETLIST ITEMS TABLE (LOCKED KEYS & ROADMAPS)
+CREATE TABLE setlist_items (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    setlist_id UUID REFERENCES setlists(id) ON DELETE CASCADE,
+    song_id UUID REFERENCES songs(id) ON DELETE CASCADE,
+    target_key VARCHAR(10) NOT NULL,
+    arrangement_notes TEXT,
+    order_index INT NOT NULL
+);</pre>
         </div>
       </div>
     </section>
@@ -244,7 +307,7 @@
     </div>
   </div>
 
-  <!-- JavaScript Logic -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const chromaticScale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
@@ -273,11 +336,28 @@ So [G]Jesus You [Bm]brought heaven [A]down
 [Bm]My sin was [A]great Your love was [D]greater
 [G]What could [Bm]separate us [A]now
 
+[Chorus 2]
+What a wonderful Name it [D]is, what a wonderful Name it [A]is
+The Name of [Bm]Jesus [A]Christ my [G]King
+What a wonderful Name it [D/F#]is, nothing compares to [A]this
+What a wonderful Name it [Bm]is, the [A]Name of [G]Jesus
+
 [Bridge]
 Death could not [G]hold You, the veil tore be[A]fore You
 You silence the [Bm]boast of sin and [F#m]grave
 The heavens are [G]roaring the praise of Your [A]glory
-For You are [Bm]raised to life a[A]gain`
+For You are [Bm]raised to life a[A]gain
+
+You have no [G]rival, You have no [A]equal
+Now and for[Bm]ever God You [F#m]reign
+Yours is the [G]kingdom, Yours is the [A]glory
+Yours is the [Bm]Name above all [A]names
+
+[Chorus 3]
+What a powerful Name it [D]is, what a powerful Name it [A]is
+The Name of [Bm]Jesus [A]Christ my [G]King
+What a powerful Name it [D/F#]is, nothing can stand a[A]gainst
+What a powerful Name it [Bm]is, the [A]Name of [G]Jesus`
       },
       {
         id: "song-2",
@@ -292,6 +372,20 @@ I worship [D]You, I worship [Em]You
 [Chorus]
 You are [C]Way Maker, Miracle Worker, Promise [G]Keeper
 Light in the darkness, my [D]God, that is who You [Em]are`
+      },
+      {
+        id: "song-3",
+        title: "Build My Life",
+        artist: "Housefires",
+        defaultKey: "G",
+        tempo: 68,
+        chordChart: `[Verse]
+[G]Worthy of every [C]song we could ever sing
+[G/B]Worthy of all the [C]praise we could ever bring
+
+[Chorus]
+[C]Holy, there is no one [Am]like You
+There is none be[G/B]side You, open up my [Em]eyes in wonder`
       }
     ];
 
@@ -307,13 +401,13 @@ Light in the darkness, my [D]God, that is who You [Em]are`
     };
 
     function switchTab(tabName) {
-      ['setlist', 'library', 'stems'].forEach(t => {
+      ['setlist', 'library', 'stems', 'spec'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
-        document.getElementById(`nav-${t}`).className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all";
+        document.getElementById(`nav-${t}`).className = "flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all";
       });
 
       document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-      document.getElementById(`nav-${tabName}`).className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-md";
+      document.getElementById(`nav-${tabName}`).className = "flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-md";
     }
 
     function transposeChord(chord, semitones) {
