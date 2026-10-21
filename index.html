@@ -1,48 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grace Church - Worship Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    .chord { font-weight: 700; color: #2563eb; display: inline-block; position: relative; }
+    .chord { font-weight: 700; color: #3b82f6; display: inline-block; padding: 0 2px; }
     .lyric-line { line-height: 2.2; }
+    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col">
+<body class="h-full flex flex-col font-sans bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white">
 
-  <!-- Navigation Bar -->
-  <header class="bg-slate-800 border-b border-slate-700 px-4 py-3 flex justify-between items-center sticky top-0 z-50">
-    <div class="flex items-center space-x-3">
-      <div class="bg-blue-600 text-white font-bold px-2.5 py-1 rounded-lg text-lg">✝</div>
-      <div>
-        <h1 class="font-bold text-lg leading-tight">Grace Church Worship</h1>
-        <p class="text-xs text-slate-400">Single Source of Truth Portal</p>
+  <!-- Header / Navigation Bar -->
+  <header class="glass-card sticky top-0 z-50 border-b border-slate-800/80 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
+          ✝
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-none">Grace Church Worship</h1>
+          <p class="text-xs text-slate-400 mt-1">Single Source of Truth Portal</p>
+        </div>
       </div>
-    </div>
-    <div class="flex space-x-2">
-      <button onclick="switchTab('setlist')" id="nav-setlist" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-600 text-white">Sunday Setlist</button>
-      <button onclick="switchTab('library')" id="nav-library" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600">Song Library</button>
-      <button onclick="switchTab('stems')" id="nav-stems" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600">Rehearsal Stems</button>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex space-x-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+        <button onclick="switchTab('setlist')" id="nav-setlist" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-md">
+          <i data-lucide="music" class="w-4 h-4"></i>
+          <span>Setlist</span>
+        </button>
+        <button onclick="switchTab('library')" id="nav-library" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
+          <i data-lucide="library" class="w-4 h-4"></i>
+          <span>Library</span>
+        </button>
+        <button onclick="switchTab('stems')" id="nav-stems" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
+          <i data-lucide="sliders" class="w-4 h-4"></i>
+          <span>Rehearsal Stems</span>
+        </button>
+      </nav>
     </div>
   </header>
 
-  <!-- Main Content Area -->
-  <main class="flex-1 p-4 max-w-5xl mx-auto w-full">
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
 
-    <!-- TAB 1: SUNDAY SETLIST & CHART VIEWER -->
+    <!-- ================= TAB 1: SUNDAY SETLIST ================= -->
     <section id="tab-setlist" class="space-y-6">
-      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-wrap justify-between items-center gap-4">
+      
+      <!-- Service Header Card -->
+      <div class="glass-card p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
         <div>
-          <span class="bg-blue-500/10 text-blue-400 text-xs font-semibold px-2.5 py-1 rounded-full uppercase">Upcoming Lineup</span>
-          <h2 class="text-2xl font-bold mt-1">Sunday Service Lineup</h2>
-          <p class="text-xs text-slate-400">Song Leader: Sarah M. | Band Leader: David K.</p>
+          <div class="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+            <span>Upcoming Lineup</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Sunday Worship Service</h2>
+          <p class="text-xs text-slate-400 mt-1">Worship Leader: Sarah M. | Electric Guitar: Alex R.</p>
         </div>
 
-        <div class="flex items-center space-x-3 bg-slate-900 p-2 rounded-lg border border-slate-700">
-          <label class="text-xs font-semibold text-slate-400 uppercase">Target Key:</label>
-          <select id="keySelector" onchange="changeKey(this.value)" class="bg-slate-800 border border-slate-600 text-white font-bold text-base rounded px-3 py-1 focus:outline-none focus:border-blue-500">
+        <!-- Key Transposer Selector -->
+        <div class="flex items-center space-x-3 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+          <i data-lucide="key" class="w-4 h-4 text-blue-400"></i>
+          <span class="text-xs font-semibold text-slate-400 uppercase">Target Key:</span>
+          <select id="keySelector" onchange="changeKey(this.value)" class="bg-slate-800 border border-slate-700 text-white font-bold text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500">
             <option value="C">C Major</option>
             <option value="D">D Major</option>
             <option value="E">E Major</option>
@@ -54,110 +78,119 @@
         </div>
       </div>
 
-      <!-- Arrangement Roadmap Blocks -->
-      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-        <h3 class="text-sm font-semibold text-slate-400 uppercase mb-3">Song Structure Roadmap</h3>
+      <!-- Structural Arrangement Map -->
+      <div class="glass-card p-5 rounded-2xl space-y-3">
+        <div class="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase">
+          <i data-lucide="git-commit" class="w-4 h-4 text-emerald-400"></i>
+          <span>Song Arrangement Flow</span>
+        </div>
         <div class="flex flex-wrap gap-2 text-xs font-bold">
-          <span class="px-3 py-1.5 rounded bg-slate-700 text-slate-300">Intro (4 bars)</span>
-          <span class="px-3 py-1.5 rounded bg-blue-600 text-white">Verse 1</span>
-          <span class="px-3 py-1.5 rounded bg-emerald-600 text-white">Chorus 1</span>
-          <span class="px-3 py-1.5 rounded bg-blue-600 text-white">Verse 2</span>
-          <span class="px-3 py-1.5 rounded bg-emerald-600 text-white">Chorus 2</span>
-          <span class="px-3 py-1.5 rounded bg-purple-600 text-white">Bridge (x2)</span>
-          <span class="px-3 py-1.5 rounded bg-emerald-600 text-white">Chorus 3</span>
-          <span class="px-3 py-1.5 rounded bg-slate-700 text-slate-300">Outro</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">Intro (4 bars)</span>
+          <span class="px-3 py-1.5 rounded-lg bg-blue-600/90 text-white shadow-sm">Verse 1</span>
+          <span class="px-3 py-1.5 rounded-lg bg-emerald-600/90 text-white shadow-sm">Chorus 1</span>
+          <span class="px-3 py-1.5 rounded-lg bg-blue-600/90 text-white shadow-sm">Verse 2</span>
+          <span class="px-3 py-1.5 rounded-lg bg-emerald-600/90 text-white shadow-sm">Chorus 2</span>
+          <span class="px-3 py-1.5 rounded-lg bg-indigo-600/90 text-white shadow-sm">Bridge (x2)</span>
+          <span class="px-3 py-1.5 rounded-lg bg-emerald-600/90 text-white shadow-sm">Chorus 3</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">Outro</span>
         </div>
       </div>
 
-      <!-- Transposed Chord Chart Display -->
-      <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
-        <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+      <!-- Transposed Chord Chart Canvas -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl space-y-6">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
           <div>
-            <h3 id="songTitle" class="text-xl font-bold text-white">Loading Song...</h3>
-            <p id="songMeta" class="text-xs text-slate-400">Loading Metadata...</p>
+            <h3 id="songTitle" class="text-2xl font-bold text-white">What a Beautiful Name</h3>
+            <p id="songMeta" class="text-xs text-slate-400 mt-1">Artist: Hillsong Worship | Original Key: D | Tempo: 68 BPM</p>
           </div>
-          <button onclick="window.print()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded text-slate-200">Print / Export PDF</button>
+          <button onclick="window.print()" class="flex items-center space-x-2 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-2 rounded-lg text-slate-200 transition-all">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Print Chart</span>
+          </button>
         </div>
 
-        <div id="chordChartContainer" class="font-mono text-base space-y-4 text-slate-200 leading-relaxed overflow-x-auto whitespace-pre-wrap">
-          <!-- Transposed Chord Chart Injected Here -->
+        <div id="chordChartContainer" class="font-mono text-base text-slate-200 leading-relaxed overflow-x-auto whitespace-pre-wrap">
+          <!-- Transposed Chord Chart Rendered Here -->
         </div>
       </div>
     </section>
 
-    <!-- TAB 2: SONG LIBRARY & ADD SONG MODAL -->
+
+    <!-- ================= TAB 2: SONG LIBRARY ================= -->
     <section id="tab-library" class="hidden space-y-6">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-2xl font-bold">Song Library</h2>
-          <p class="text-xs text-slate-400">Master database of chords and lyrics charts</p>
+          <h2 class="text-2xl font-bold text-white">Song Library</h2>
+          <p class="text-xs text-slate-400">Master repository of chords and lyric charts</p>
         </div>
-        <button onclick="toggleModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-4 py-2 rounded-lg flex items-center space-x-1">
-          <span>+ Add New Song</span>
+        <button onclick="toggleModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all shadow-lg shadow-blue-500/20">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Add New Song</span>
         </button>
       </div>
 
-      <div id="libraryContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Dynamic Song Cards Injected Here -->
+      <div id="libraryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Dynamic Cards Injected Here -->
       </div>
     </section>
 
-    <!-- TAB 3: REHEARSAL STEMS & AUDIO PLAYER -->
+
+    <!-- ================= TAB 3: REHEARSAL STEMS ================= -->
     <section id="tab-stems" class="hidden space-y-6">
-      <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-6">
+      <div class="glass-card p-6 rounded-2xl space-y-6">
         <div>
-          <h2 class="text-2xl font-bold">Rehearsal Stem Player</h2>
+          <h2 class="text-2xl font-bold text-white">Rehearsal Stem Player</h2>
           <p class="text-xs text-slate-400">Practice missing instrument parts or isolate your track at home</p>
         </div>
 
-        <!-- Master Transport Controls -->
-        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
+        <!-- Master Transport Controller -->
+        <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 flex items-center justify-between">
           <div class="flex items-center space-x-4">
-            <button id="playBtn" onclick="toggleAudioPlayback()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-3 rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
-              ▶
+            <button id="playBtn" onclick="toggleAudioPlayback()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-4 rounded-full w-14 h-14 flex items-center justify-center shadow-lg shadow-emerald-600/30 transition-all">
+              <i data-lucide="play" id="playIcon" class="w-6 h-6"></i>
             </button>
             <div>
-              <p class="font-bold text-sm" id="stemTrackTitle">Practice Track</p>
-              <p class="text-xs text-slate-400" id="audioStatus">Status: Ready (Web Audio Engine)</p>
+              <p class="font-bold text-base text-white" id="stemTrackTitle">What a Beautiful Name (Practice Track)</p>
+              <p class="text-xs text-slate-400 mt-0.5" id="audioStatus">Status: Ready (Web Audio Engine)</p>
             </div>
           </div>
           <div class="text-right">
-            <span class="text-xl font-mono font-bold text-blue-400" id="timeDisplay">00:00</span>
+            <span class="text-2xl font-mono font-bold text-blue-400" id="timeDisplay">00:00</span>
           </div>
         </div>
 
-        <!-- Stem Mixer Faders -->
+        <!-- Multi-Channel Mixer Faders -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
-            <div class="flex justify-between text-xs font-bold">
-              <span>Click / Cue</span>
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex justify-between text-xs font-bold text-slate-300">
+              <span class="flex items-center space-x-2"><i data-lucide="disc" class="w-3.5 h-3.5 text-blue-400"></i><span>Click / Cue</span></span>
               <span id="vol-click">80%</span>
             </div>
-            <input type="range" min="0" max="100" value="80" oninput="updateVolume('click', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+            <input type="range" min="0" max="100" value="80" oninput="updateVolume('click', this.value)" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
           </div>
 
-          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
-            <div class="flex justify-between text-xs font-bold">
-              <span>Keys / Synth</span>
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex justify-between text-xs font-bold text-slate-300">
+              <span class="flex items-center space-x-2"><i data-lucide="piano" class="w-3.5 h-3.5 text-indigo-400"></i><span>Keys / Synth</span></span>
               <span id="vol-keys">100%</span>
             </div>
-            <input type="range" min="0" max="100" value="100" oninput="updateVolume('keys', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+            <input type="range" min="0" max="100" value="100" oninput="updateVolume('keys', this.value)" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
           </div>
 
-          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
-            <div class="flex justify-between text-xs font-bold">
-              <span>Acoustic Guitar</span>
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex justify-between text-xs font-bold text-slate-300">
+              <span class="flex items-center space-x-2"><i data-lucide="guitar" class="w-3.5 h-3.5 text-emerald-400"></i><span>Acoustic Guitar</span></span>
               <span id="vol-guitar">100%</span>
             </div>
-            <input type="range" min="0" max="100" value="100" oninput="updateVolume('guitar', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+            <input type="range" min="0" max="100" value="100" oninput="updateVolume('guitar', this.value)" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
           </div>
 
-          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
-            <div class="flex justify-between text-xs font-bold">
-              <span>Drums / Perc</span>
+          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex justify-between text-xs font-bold text-slate-300">
+              <span class="flex items-center space-x-2"><i data-lucide="drum" class="w-3.5 h-3.5 text-amber-400"></i><span>Drums / Perc</span></span>
               <span id="vol-drums">100%</span>
             </div>
-            <input type="range" min="0" max="100" value="100" oninput="updateVolume('drums', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+            <input type="range" min="0" max="100" value="100" oninput="updateVolume('drums', this.value)" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
           </div>
         </div>
       </div>
@@ -166,23 +199,23 @@
   </main>
 
   <!-- ADD NEW SONG MODAL -->
-  <div id="addSongModal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 max-w-lg w-full space-y-4">
-      <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-        <h3 class="text-lg font-bold">Add New Song Chart</h3>
+  <div id="addSongModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-lg w-full space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-bold text-white">Add New Song Chart</h3>
         <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
       <form id="addSongForm" onsubmit="handleNewSongSubmit(event)" class="space-y-3 text-sm">
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">Song Title</label>
-          <input id="inputTitle" required type="text" placeholder="Goodness of God" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          <input id="inputTitle" required type="text" placeholder="Goodness of God" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Original Key</label>
-            <select id="inputKey" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+            <select id="inputKey" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
               <option value="C">C</option>
               <option value="D">D</option>
               <option value="E">E</option>
@@ -194,29 +227,27 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Tempo (BPM)</label>
-            <input id="inputTempo" required type="number" value="68" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+            <input id="inputTempo" required type="number" value="68" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">ChordPro Chart ([Chord]Lyrics)</label>
-          <textarea id="inputChart" required rows="6" placeholder="[A]I love You Lord, Oh Your [D]mercy never [A]fails me..." class="w-full font-mono bg-slate-900 border border-slate-700 rounded p-3 text-white text-xs focus:outline-none focus:border-blue-500"></textarea>
+          <textarea id="inputChart" required rows="6" placeholder="[A]I love You Lord, Oh Your [D]mercy never [A]fails me..." class="w-full font-mono bg-slate-800 border border-slate-700 rounded-lg p-3 text-white text-xs focus:outline-none focus:border-blue-500"></textarea>
         </div>
 
         <div class="flex justify-end space-x-2 pt-2">
-          <button type="button" onclick="toggleModal(false)" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600 text-slate-200">Cancel</button>
-          <button type="submit" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 font-bold text-white">Save Song</button>
+          <button type="button" onclick="toggleModal(false)" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 font-bold text-white text-xs">Save Song</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <!-- JavaScript Logic -->
   <script>
-    // CHROMATIC KEY MAP FOR TRANSPOSITION
     const chromaticScale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-    // DEFAULT SONG DATABASE (INCLUDES WHAT A BEAUTIFUL NAME)
     const defaultSongs = [
       {
         id: "song-1",
@@ -224,7 +255,6 @@
         artist: "Hillsong Worship",
         defaultKey: "D",
         tempo: 68,
-        timeSignature: "4/4",
         chordChart: `[Verse 1]
 [D]You were the Word at the beginning
 [G]One with [Bm]God the Lord Most [A]High
@@ -243,28 +273,11 @@ So [G]Jesus You [Bm]brought heaven [A]down
 [Bm]My sin was [A]great Your love was [D]greater
 [G]What could [Bm]separate us [A]now
 
-[Chorus 2]
-What a wonderful Name it [D]is, what a wonderful Name it [A]is
-The Name of [Bm]Jesus [A]Christ my [G]King
-What a wonderful Name it [D/F#]is, nothing compares to [A]this
-What a wonderful Name it [Bm]is, the [A]Name of [G]Jesus
-
 [Bridge]
 Death could not [G]hold You, the veil tore be[A]fore You
 You silence the [Bm]boast of sin and [F#m]grave
 The heavens are [G]roaring the praise of Your [A]glory
-For You are [Bm]raised to life a[A]gain
-
-You have no [G]rival, You have no [A]equal
-Now and for[Bm]ever God You [F#m]reign
-Yours is the [G]kingdom, Yours is the [A]glory
-Yours is the [Bm]Name above all [A]names
-
-[Chorus 3]
-What a powerful Name it [D]is, what a powerful Name it [A]is
-The Name of [Bm]Jesus [A]Christ my [G]King
-What a powerful Name it [D/F#]is, nothing can stand a[A]gainst
-What a powerful Name it [Bm]is, the [A]Name of [G]Jesus`
+For You are [Bm]raised to life a[A]gain`
       },
       {
         id: "song-2",
@@ -272,58 +285,37 @@ What a powerful Name it [Bm]is, the [A]Name of [G]Jesus`
         artist: "Sinach",
         defaultKey: "C",
         tempo: 68,
-        timeSignature: "4/4",
         chordChart: `[Verse 1]
 [C]You are here, moving in our [G]midst
-I worship [D]You, I worship [Em]You
-[C]You are here, working in this [G]place
 I worship [D]You, I worship [Em]You
 
 [Chorus]
 You are [C]Way Maker, Miracle Worker, Promise [G]Keeper
 Light in the darkness, my [D]God, that is who You [Em]are`
-      },
-      {
-        id: "song-3",
-        title: "Build My Life",
-        artist: "Housefires",
-        defaultKey: "G",
-        tempo: 68,
-        timeSignature: "4/4",
-        chordChart: `[Verse]
-[G]Worthy of every [C]song we could ever sing
-[G/B]Worthy of all the [C]praise we could ever bring
-
-[Chorus]
-[C]Holy, there is no one [Am]like You
-There is none be[G/B]side You, open up my [Em]eyes in wonder`
       }
     ];
 
-    // LOAD SONGS FROM LOCAL STORAGE OR DEFAULT
     let songs = JSON.parse(localStorage.getItem('worship_songs')) || defaultSongs;
     let activeSong = songs[0];
     let currentKey = activeSong.defaultKey;
 
-    // INITIALIZATION
     window.onload = function() {
+      lucide.createIcons();
       document.getElementById('keySelector').value = currentKey;
       renderLibrary();
       renderChart();
     };
 
-    // TAB SWITCHING LOGIC
     function switchTab(tabName) {
       ['setlist', 'library', 'stems'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
-        document.getElementById(`nav-${t}`).className = "px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600";
+        document.getElementById(`nav-${t}`).className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all";
       });
 
       document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-      document.getElementById(`nav-${tabName}`).className = "px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-600 text-white";
+      document.getElementById(`nav-${tabName}`).className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-md";
     }
 
-    // TRANSPOSITION ENGINE
     function transposeChord(chord, semitones) {
       return chord.replace(/[A-G][#b]?/g, (match) => {
         let index = chromaticScale.indexOf(match);
@@ -343,7 +335,6 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
       let semitones = getSemitoneDistance(activeSong.defaultKey, currentKey);
       let rawChart = activeSong.chordChart;
 
-      // PARSE CHORDPRO BRACKETS INTO HTML
       let formattedHtml = rawChart.replace(/\[(.*?)\]/g, (match, chord) => {
         let transposed = transposeChord(chord, semitones);
         return `<span class="chord">${transposed}</span>`;
@@ -351,7 +342,7 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
 
       document.getElementById('chordChartContainer').innerHTML = formattedHtml;
       document.getElementById('songTitle').innerText = `${activeSong.title} (Key of ${currentKey})`;
-      document.getElementById('songMeta').innerText = `Original Key: ${activeSong.defaultKey} | Artist: ${activeSong.artist || 'Worship Leader'} | Tempo: ${activeSong.tempo} BPM`;
+      document.getElementById('songMeta').innerText = `Artist: ${activeSong.artist} | Original Key: ${activeSong.defaultKey} | Tempo: ${activeSong.tempo} BPM`;
       document.getElementById('stemTrackTitle').innerText = `${activeSong.title} (Practice Track)`;
     }
 
@@ -360,16 +351,15 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
       renderChart();
     }
 
-    // RENDER SONG LIBRARY CARDS
     function renderLibrary() {
       const container = document.getElementById('libraryContainer');
       container.innerHTML = songs.map(song => `
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+        <div class="glass-card p-5 rounded-xl flex justify-between items-center hover:border-slate-700 transition-all">
           <div>
-            <h4 class="font-bold text-lg text-white">${song.title}</h4>
-            <p class="text-xs text-slate-400">Original Key: ${song.defaultKey} | ${song.tempo} BPM</p>
+            <h4 class="font-bold text-base text-white">${song.title}</h4>
+            <p class="text-xs text-slate-400 mt-1">Key of ${song.defaultKey} | ${song.tempo} BPM</p>
           </div>
-          <button onclick="selectSong('${song.id}')" class="bg-slate-700 hover:bg-slate-600 text-blue-400 text-xs font-semibold px-3 py-2 rounded">
+          <button onclick="selectSong('${song.id}')" class="bg-slate-800 hover:bg-slate-700 text-blue-400 border border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition-all">
             View Chart
           </button>
         </div>
@@ -384,7 +374,6 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
       switchTab('setlist');
     }
 
-    // ADD NEW SONG MODAL
     function toggleModal(show) {
       document.getElementById('addSongModal').classList.toggle('hidden', !show);
     }
@@ -394,7 +383,7 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
       const newSong = {
         id: "song-" + Date.now(),
         title: document.getElementById('inputTitle').value,
-        artist: "Worship Team",
+        artist: "Worship Leader",
         defaultKey: document.getElementById('inputKey').value,
         tempo: parseInt(document.getElementById('inputTempo').value),
         chordChart: document.getElementById('inputChart').value
@@ -407,35 +396,29 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
       selectSong(newSong.id);
     }
 
-    // WEB AUDIO API SYNTHESIZER (STEMS FALLBACK ENGINE)
     let audioCtx = null;
     let isPlaying = false;
     let timerInterval = null;
     let secondsElapsed = 0;
 
     function toggleAudioPlayback() {
-      // UNLOCK AUDIO CONTEXT ON USER ACTION
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
-
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
 
       isPlaying = !isPlaying;
-      const playBtn = document.getElementById('playBtn');
       const status = document.getElementById('audioStatus');
 
       if (isPlaying) {
-        playBtn.innerText = "⏸";
-        status.innerText = "Status: Playing Synth Demo Stem Track";
-        status.className = "text-xs text-emerald-400";
+        status.innerText = "Status: Playing Click Track";
+        status.className = "text-xs text-emerald-400 mt-0.5";
         startSynthEngine();
       } else {
-        playBtn.innerText = "▶";
         status.innerText = "Status: Paused";
-        status.className = "text-xs text-slate-400";
+        status.className = "text-xs text-slate-400 mt-0.5";
         clearInterval(timerInterval);
       }
     }
@@ -447,7 +430,6 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
         let secs = (secondsElapsed % 60).toString().padStart(2, '0');
         document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
 
-        // BEEP CLICK SOUND
         if (audioCtx) {
           let osc = audioCtx.createOscillator();
           let gain = audioCtx.createGain();
@@ -463,7 +445,7 @@ There is none be[G/B]side You, open up my [Em]eyes in wonder`
           osc.start();
           osc.stop(audioCtx.currentTime + 0.04);
         }
-      }, 880); // ~68 BPM Click
+      }, 880);
     }
 
     function updateVolume(stem, val) {
