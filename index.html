@@ -60,4 +60,415 @@
         <div class="flex flex-wrap gap-2 text-xs font-bold">
           <span class="px-3 py-1.5 rounded bg-slate-700 text-slate-300">Intro (4 bars)</span>
           <span class="px-3 py-1.5 rounded bg-blue-600 text-white">Verse 1</span>
-          <span class="px-3 py
+          <span class="px-3 py-1.5 rounded bg-emerald-600 text-white">Chorus 1</span>
+          <span class="px-3 py-1.5 rounded bg-blue-600 text-white">Verse 2</span>
+          <span class="px-3 py-1.5 rounded bg-emerald-600 text-white">Chorus 2</span>
+          <span class="px-3 py-1.5 rounded bg-purple-600 text-white">Bridge (x2)</span>
+          <span class="px-3 py-1.5 rounded bg-emerald-600 text-white">Chorus 3</span>
+          <span class="px-3 py-1.5 rounded bg-slate-700 text-slate-300">Outro</span>
+        </div>
+      </div>
+
+      <!-- Transposed Chord Chart Display -->
+      <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+          <div>
+            <h3 id="songTitle" class="text-xl font-bold text-white">Loading Song...</h3>
+            <p id="songMeta" class="text-xs text-slate-400">Loading Metadata...</p>
+          </div>
+          <button onclick="window.print()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded text-slate-200">Print / Export PDF</button>
+        </div>
+
+        <div id="chordChartContainer" class="font-mono text-base space-y-4 text-slate-200 leading-relaxed overflow-x-auto whitespace-pre-wrap">
+          <!-- Transposed Chord Chart Injected Here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SONG LIBRARY & ADD SONG MODAL -->
+    <section id="tab-library" class="hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold">Song Library</h2>
+          <p class="text-xs text-slate-400">Master database of chords and lyrics charts</p>
+        </div>
+        <button onclick="toggleModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-4 py-2 rounded-lg flex items-center space-x-1">
+          <span>+ Add New Song</span>
+        </button>
+      </div>
+
+      <div id="libraryContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Dynamic Song Cards Injected Here -->
+      </div>
+    </section>
+
+    <!-- TAB 3: REHEARSAL STEMS & AUDIO PLAYER -->
+    <section id="tab-stems" class="hidden space-y-6">
+      <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-6">
+        <div>
+          <h2 class="text-2xl font-bold">Rehearsal Stem Player</h2>
+          <p class="text-xs text-slate-400">Practice missing instrument parts or isolate your track at home</p>
+        </div>
+
+        <!-- Master Transport Controls -->
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <button id="playBtn" onclick="toggleAudioPlayback()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-3 rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
+              ▶
+            </button>
+            <div>
+              <p class="font-bold text-sm" id="stemTrackTitle">Practice Track</p>
+              <p class="text-xs text-slate-400" id="audioStatus">Status: Ready (Web Audio Engine)</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-xl font-mono font-bold text-blue-400" id="timeDisplay">00:00</span>
+          </div>
+        </div>
+
+        <!-- Stem Mixer Faders -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
+            <div class="flex justify-between text-xs font-bold">
+              <span>Click / Cue</span>
+              <span id="vol-click">80%</span>
+            </div>
+            <input type="range" min="0" max="100" value="80" oninput="updateVolume('click', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+          </div>
+
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
+            <div class="flex justify-between text-xs font-bold">
+              <span>Keys / Synth</span>
+              <span id="vol-keys">100%</span>
+            </div>
+            <input type="range" min="0" max="100" value="100" oninput="updateVolume('keys', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+          </div>
+
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
+            <div class="flex justify-between text-xs font-bold">
+              <span>Acoustic Guitar</span>
+              <span id="vol-guitar">100%</span>
+            </div>
+            <input type="range" min="0" max="100" value="100" oninput="updateVolume('guitar', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+          </div>
+
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 space-y-2">
+            <div class="flex justify-between text-xs font-bold">
+              <span>Drums / Perc</span>
+              <span id="vol-drums">100%</span>
+            </div>
+            <input type="range" min="0" max="100" value="100" oninput="updateVolume('drums', this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ADD NEW SONG MODAL -->
+  <div id="addSongModal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 max-w-lg w-full space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+        <h3 class="text-lg font-bold">Add New Song Chart</h3>
+        <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+
+      <form id="addSongForm" onsubmit="handleNewSongSubmit(event)" class="space-y-3 text-sm">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Song Title</label>
+          <input id="inputTitle" required type="text" placeholder="Goodness of God" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Original Key</label>
+            <select id="inputKey" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="A" selected>A</option>
+              <option value="B">B</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Tempo (BPM)</label>
+            <input id="inputTempo" required type="number" value="68" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">ChordPro Chart ([Chord]Lyrics)</label>
+          <textarea id="inputChart" required rows="6" placeholder="[A]I love You Lord, Oh Your [D]mercy never [A]fails me..." class="w-full font-mono bg-slate-900 border border-slate-700 rounded p-3 text-white text-xs focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-2">
+          <button type="button" onclick="toggleModal(false)" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600 text-slate-200">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 font-bold text-white">Save Song</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // CHROMATIC KEY MAP FOR TRANSPOSITION
+    const chromaticScale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+
+    // DEFAULT SONG DATABASE (INCLUDES WHAT A BEAUTIFUL NAME)
+    const defaultSongs = [
+      {
+        id: "song-1",
+        title: "What a Beautiful Name",
+        artist: "Hillsong Worship",
+        defaultKey: "D",
+        tempo: 68,
+        timeSignature: "4/4",
+        chordChart: `[Verse 1]
+[D]You were the Word at the beginning
+[G]One with [Bm]God the Lord Most [A]High
+[Bm]Your hidden [A]glory in cre[D]ation
+[G]Now re[Bm]vealed in You our [A]Christ
+
+[Chorus 1]
+What a beautiful Name it [D]is, what a beautiful Name it [A]is
+The Name of [Bm]Jesus [A]Christ my [G]King
+What a beautiful Name it [D/F#]is, nothing compares to [A]this
+What a beautiful Name it [Bm]is, the [A]Name of [G]Jesus
+
+[Verse 2]
+[D]You didn't want heaven without us
+So [G]Jesus You [Bm]brought heaven [A]down
+[Bm]My sin was [A]great Your love was [D]greater
+[G]What could [Bm]separate us [A]now
+
+[Chorus 2]
+What a wonderful Name it [D]is, what a wonderful Name it [A]is
+The Name of [Bm]Jesus [A]Christ my [G]King
+What a wonderful Name it [D/F#]is, nothing compares to [A]this
+What a wonderful Name it [Bm]is, the [A]Name of [G]Jesus
+
+[Bridge]
+Death could not [G]hold You, the veil tore be[A]fore You
+You silence the [Bm]boast of sin and [F#m]grave
+The heavens are [G]roaring the praise of Your [A]glory
+For You are [Bm]raised to life a[A]gain
+
+You have no [G]rival, You have no [A]equal
+Now and for[Bm]ever God You [F#m]reign
+Yours is the [G]kingdom, Yours is the [A]glory
+Yours is the [Bm]Name above all [A]names
+
+[Chorus 3]
+What a powerful Name it [D]is, what a powerful Name it [A]is
+The Name of [Bm]Jesus [A]Christ my [G]King
+What a powerful Name it [D/F#]is, nothing can stand a[A]gainst
+What a powerful Name it [Bm]is, the [A]Name of [G]Jesus`
+      },
+      {
+        id: "song-2",
+        title: "Way Maker",
+        artist: "Sinach",
+        defaultKey: "C",
+        tempo: 68,
+        timeSignature: "4/4",
+        chordChart: `[Verse 1]
+[C]You are here, moving in our [G]midst
+I worship [D]You, I worship [Em]You
+[C]You are here, working in this [G]place
+I worship [D]You, I worship [Em]You
+
+[Chorus]
+You are [C]Way Maker, Miracle Worker, Promise [G]Keeper
+Light in the darkness, my [D]God, that is who You [Em]are`
+      },
+      {
+        id: "song-3",
+        title: "Build My Life",
+        artist: "Housefires",
+        defaultKey: "G",
+        tempo: 68,
+        timeSignature: "4/4",
+        chordChart: `[Verse]
+[G]Worthy of every [C]song we could ever sing
+[G/B]Worthy of all the [C]praise we could ever bring
+
+[Chorus]
+[C]Holy, there is no one [Am]like You
+There is none be[G/B]side You, open up my [Em]eyes in wonder`
+      }
+    ];
+
+    // LOAD SONGS FROM LOCAL STORAGE OR DEFAULT
+    let songs = JSON.parse(localStorage.getItem('worship_songs')) || defaultSongs;
+    let activeSong = songs[0];
+    let currentKey = activeSong.defaultKey;
+
+    // INITIALIZATION
+    window.onload = function() {
+      document.getElementById('keySelector').value = currentKey;
+      renderLibrary();
+      renderChart();
+    };
+
+    // TAB SWITCHING LOGIC
+    function switchTab(tabName) {
+      ['setlist', 'library', 'stems'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`nav-${t}`).className = "px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600";
+      });
+
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabName}`).className = "px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-600 text-white";
+    }
+
+    // TRANSPOSITION ENGINE
+    function transposeChord(chord, semitones) {
+      return chord.replace(/[A-G][#b]?/g, (match) => {
+        let index = chromaticScale.indexOf(match);
+        if (index === -1) return match;
+        let newIndex = (index + semitones + 12) % 12;
+        return chromaticScale[newIndex];
+      });
+    }
+
+    function getSemitoneDistance(fromKey, toKey) {
+      let fromIdx = chromaticScale.indexOf(fromKey);
+      let toIdx = chromaticScale.indexOf(toKey);
+      return toIdx - fromIdx;
+    }
+
+    function renderChart() {
+      let semitones = getSemitoneDistance(activeSong.defaultKey, currentKey);
+      let rawChart = activeSong.chordChart;
+
+      // PARSE CHORDPRO BRACKETS INTO HTML
+      let formattedHtml = rawChart.replace(/\[(.*?)\]/g, (match, chord) => {
+        let transposed = transposeChord(chord, semitones);
+        return `<span class="chord">${transposed}</span>`;
+      });
+
+      document.getElementById('chordChartContainer').innerHTML = formattedHtml;
+      document.getElementById('songTitle').innerText = `${activeSong.title} (Key of ${currentKey})`;
+      document.getElementById('songMeta').innerText = `Original Key: ${activeSong.defaultKey} | Artist: ${activeSong.artist || 'Worship Leader'} | Tempo: ${activeSong.tempo} BPM`;
+      document.getElementById('stemTrackTitle').innerText = `${activeSong.title} (Practice Track)`;
+    }
+
+    function changeKey(newKey) {
+      currentKey = newKey;
+      renderChart();
+    }
+
+    // RENDER SONG LIBRARY CARDS
+    function renderLibrary() {
+      const container = document.getElementById('libraryContainer');
+      container.innerHTML = songs.map(song => `
+        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+          <div>
+            <h4 class="font-bold text-lg text-white">${song.title}</h4>
+            <p class="text-xs text-slate-400">Original Key: ${song.defaultKey} | ${song.tempo} BPM</p>
+          </div>
+          <button onclick="selectSong('${song.id}')" class="bg-slate-700 hover:bg-slate-600 text-blue-400 text-xs font-semibold px-3 py-2 rounded">
+            View Chart
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function selectSong(id) {
+      activeSong = songs.find(s => s.id === id);
+      currentKey = activeSong.defaultKey;
+      document.getElementById('keySelector').value = currentKey;
+      renderChart();
+      switchTab('setlist');
+    }
+
+    // ADD NEW SONG MODAL
+    function toggleModal(show) {
+      document.getElementById('addSongModal').classList.toggle('hidden', !show);
+    }
+
+    function handleNewSongSubmit(e) {
+      e.preventDefault();
+      const newSong = {
+        id: "song-" + Date.now(),
+        title: document.getElementById('inputTitle').value,
+        artist: "Worship Team",
+        defaultKey: document.getElementById('inputKey').value,
+        tempo: parseInt(document.getElementById('inputTempo').value),
+        chordChart: document.getElementById('inputChart').value
+      };
+
+      songs.push(newSong);
+      localStorage.setItem('worship_songs', JSON.stringify(songs));
+      renderLibrary();
+      toggleModal(false);
+      selectSong(newSong.id);
+    }
+
+    // WEB AUDIO API SYNTHESIZER (STEMS FALLBACK ENGINE)
+    let audioCtx = null;
+    let isPlaying = false;
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    function toggleAudioPlayback() {
+      // UNLOCK AUDIO CONTEXT ON USER ACTION
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isPlaying = !isPlaying;
+      const playBtn = document.getElementById('playBtn');
+      const status = document.getElementById('audioStatus');
+
+      if (isPlaying) {
+        playBtn.innerText = "⏸";
+        status.innerText = "Status: Playing Synth Demo Stem Track";
+        status.className = "text-xs text-emerald-400";
+        startSynthEngine();
+      } else {
+        playBtn.innerText = "▶";
+        status.innerText = "Status: Paused";
+        status.className = "text-xs text-slate-400";
+        clearInterval(timerInterval);
+      }
+    }
+
+    function startSynthEngine() {
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        let mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+        let secs = (secondsElapsed % 60).toString().padStart(2, '0');
+        document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
+
+        // BEEP CLICK SOUND
+        if (audioCtx) {
+          let osc = audioCtx.createOscillator();
+          let gain = audioCtx.createGain();
+          let clickVol = parseInt(document.getElementById('vol-click').innerText) / 100;
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.1 * clickVol, audioCtx.currentTime);
+          
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.04);
+        }
+      }, 880); // ~68 BPM Click
+    }
+
+    function updateVolume(stem, val) {
+      document.getElementById(`vol-${stem}`).innerText = `${val}%`;
+    }
+  </script>
+</body>
+</html>
