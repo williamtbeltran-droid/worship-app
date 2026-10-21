@@ -36,7 +36,7 @@
       <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-wrap justify-between items-center gap-4">
         <div>
           <span class="bg-blue-500/10 text-blue-400 text-xs font-semibold px-2.5 py-1 rounded-full uppercase">Upcoming Lineup</span>
-          <h2 class="text-2xl font-bold mt-1">Sunday Service - Oct 25</h2>
+          <h2 class="text-2xl font-bold mt-1">Sunday Service Lineup</h2>
           <p class="text-xs text-slate-400">Song Leader: Sarah M. | Band Leader: David K.</p>
         </div>
 
@@ -45,7 +45,19 @@
           <select id="keySelector" onchange="changeKey(this.value)" class="bg-slate-800 border border-slate-600 text-white font-bold text-base rounded px-3 py-1 focus:outline-none focus:border-blue-500">
             <option value="C">C Major</option>
             <option value="D">D Major</option>
-            <option value="E" selected>E Major (Rehearsal Key)</option>
+            <option value="E">E Major</option>
             <option value="F">F Major</option>
             <option value="G">G Major</option>
-            <option value="A">A Major
+            <option value="A">A Major</option>
+            <option value="B">B Major</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Arrangement Roadmap Blocks -->
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+        <h3 class="text-sm font-semibold text-slate-400 uppercase mb-3">Song Structure Roadmap</h3>
+        <div class="flex flex-wrap gap-2 text-xs font-bold">
+          <span class="px-3 py-1.5 rounded bg-slate-700 text-slate-300">Intro (4 bars)</span>
+          <span class="px-3 py-1.5 rounded bg-blue-600 text-white">Verse 1</span>
+          <span class="px-3 py
